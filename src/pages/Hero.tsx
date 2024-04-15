@@ -18,7 +18,7 @@ function Hero() {
           <div className="relative flex select-none items-center gap-4 rounded-full px-4 py-2 text-sm leading-6 text-dark ring-1 ring-gray-900/10 duration-300 hover:ring-gray-900/20 dark:text-light dark:ring-gray-500 hover:dark:ring-gray-100">
             <span>Best place to get the latest notices and updates</span>
             <a
-              href="https://github.com/Aman-in-GitHub/NewsBit-TheNewsletterForIOST"
+              href="https://github.com/Aman-in-GitHub/NewsBit-TheNewsletterForIOST/blob/main/README.md"
               target="_blank"
               className="font-semibold text-primary hover:underline"
             >
