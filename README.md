@@ -25,4 +25,4 @@ Welcome to NewsBit, the platform for staying updated with the latest news and no
 - React
 - Tailwind CSS
 
- Visit [NewsBit](newsbit.amanchand.com.np) and _**stop** missing important notices._
+ Visit [NewsBit](https://newsbit.amanchand.com.np) and _**stop** missing important notices._
