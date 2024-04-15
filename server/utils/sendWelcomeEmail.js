@@ -336,7 +336,7 @@ const welcomeHtml = (mail, branch, semester) => {
                             color: #1b1b1b;
                           ">
                         Best regards,<br /><br />Aman Chand<br />
-                        <a href="https://www.amanchand.com.np" target="_blank" style="color: #ffa31a">amanchand.com.np</a>
+                        <a href="https://amanchand.com.np" target="_blank" style="color: #ffa31a">amanchand.com.np</a>
                       </div>
                     </td>
                   </tr>

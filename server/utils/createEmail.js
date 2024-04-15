@@ -439,7 +439,7 @@ async function createEmail(data) {
                         >
                           Best regards,<br /><br />Aman Chand<br />
                           <a
-                            href="https://www.amanchand.com.np"
+                            href="https://amanchand.com.np"
                             target="_blank"
                             style="color: #ffa31a"
                             >amanchand.com.np</a
