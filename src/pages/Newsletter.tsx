@@ -55,17 +55,20 @@ function Newsletter() {
       const semester = branch.split(" ")[1].trim();
       const email = emailRef.current?.value.toLowerCase().trim();
 
-      const response = await fetch("/api/saveEmail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${import.meta.env.VITE_NODE_API_URL}/api/saveEmail`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            branch: branchName,
+            semester,
+          }),
         },
-        body: JSON.stringify({
-          email,
-          branch: branchName,
-          semester,
-        }),
-      });
+      );
 
       const data = await response.json();
 

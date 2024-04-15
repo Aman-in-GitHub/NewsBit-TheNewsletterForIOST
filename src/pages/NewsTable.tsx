@@ -6,7 +6,9 @@ import { secondsToDate } from "@/utils/dateManipulator";
 import TableLoader from "@/elements/TableLoader";
 
 async function getData(): Promise<News[]> {
-  const response = await fetch("/api/getNews");
+  const response = await fetch(
+    `${import.meta.env.VITE_NODE_API_URL}/api/getNews`,
+  );
   const res = await response.json();
 
   return res.data;

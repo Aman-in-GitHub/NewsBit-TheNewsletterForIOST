@@ -5,13 +5,16 @@ export const downloadPDF = async (fileUrl: string, downloadName: string) => {
       "",
     );
 
-    const response = await fetch("/api/download", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `${import.meta.env.VITE_NODE_API_URL}/api/download`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ fileUrl, sanitizedDownloadName }),
       },
-      body: JSON.stringify({ fileUrl, sanitizedDownloadName }),
-    });
+    );
 
     if (response.ok) {
       const blob = await response.blob();
