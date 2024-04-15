@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: Geist-Regular;
+  font-weight: 400;
+  src: url(/fonts/Geist-Regular.otf);
+}
+
+@font-face {
+  font-family: Geist-Medium;
+  font-weight: 500;
+  src: url(/fonts/Geist-Medium.otf);
+}
+
+@font-face {
+  font-family: Geist-Black;
+  font-weight: 900;
+  src: url(/fonts/Geist-Black.otf);
+}
+
+*::selection {
+  background-color: #ffa31a;
+  color: white;
+}
+
+button {
+  user-select: none;
+}
