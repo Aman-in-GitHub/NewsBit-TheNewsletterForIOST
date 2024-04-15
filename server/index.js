@@ -5,6 +5,7 @@ import fs from "fs";
 import { supabase } from "./db.js";
 import { downloadPDF } from "./utils/pdfDownload.js";
 import { runAt3AM } from "./utils/scheduler.js";
+import { sendWelcomeEmail } from "./utils/sendWelcomeEmail.js";
 
 const PORT = process.env.PORT || 4444;
 
@@ -100,17 +101,24 @@ app.post("/api/saveEmail", async (req, res) => {
   try {
     const { email, branch, semester } = req.body;
 
-    const { error } = await supabase.from("emails").upsert({
-      email,
-      branch,
-      semester,
-    });
+    const { data, error } = await supabase
+      .from("emails")
+      .upsert({
+        email,
+        branch,
+        semester,
+      })
+      .select();
 
     if (error) {
       console.log(error);
 
       res.status(500).json({ message: "Error saving email to database" });
       return;
+    }
+
+    if (data[0].isWelcomed === false) {
+      await sendWelcomeEmail(email, branch, semester);
     }
 
     res.status(200).json({ message: "Email saved successfully" });

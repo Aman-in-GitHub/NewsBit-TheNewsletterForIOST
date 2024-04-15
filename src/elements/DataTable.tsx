@@ -68,7 +68,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
         <div className="flex items-center py-4">
           <input
             placeholder="Filter news"
@@ -88,7 +88,7 @@ export function DataTable<TData, TValue>({
             table.getColumn("title")?.setFilterValue(val)
           }
         >
-          <SelectTrigger className="h-[2.55rem] w-[250px] rounded-md border-0 bg-white/5 text-dark shadow-sm ring-1 ring-inset ring-white dark:text-light dark:ring-white/10 lg:w-[200px]">
+          <SelectTrigger className="mb-6 h-[2.55rem] w-[250px] rounded-md border-0 bg-white/5 text-dark shadow-sm ring-1 ring-inset ring-white dark:text-light dark:ring-white/10 lg:mb-0 lg:w-[200px]">
             <SelectValue placeholder="Select a branch" />
           </SelectTrigger>
           <SelectContent className="font-text">
