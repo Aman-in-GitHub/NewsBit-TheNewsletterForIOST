@@ -231,7 +231,7 @@ const welcomeHtml = (mail, branch, semester) => {
                             text-align: center;
                             color: #1b1b1b;
                           ">
-                        Welcome To BitNews
+                        Welcome To NewsBit
                       </div>
                     </td>
                   </tr>
