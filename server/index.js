@@ -138,7 +138,7 @@ const refreshServer = async () => {
   }
 };
 
-const interval = 15 * 60 * 1000;
+const interval = 10 * 60 * 1000;
 setInterval(refreshServer, interval);
 
 const refreshDatabase = async () => {
