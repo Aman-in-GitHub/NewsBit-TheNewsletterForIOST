@@ -257,6 +257,7 @@ async function createEmail(data) {
                                     -ms-interpolation-mode: bicubic;
                                   "
                                   width="64"
+                                  alt="NewsBit Logo"
                                 />
                               </a>
                               </td>

@@ -194,7 +194,7 @@ const welcomeHtml = (mail, branch, semester) => {
                                   mso-table-rspace: 0pt;
                                 ">
                               <a href="newsbit.amanchand.com.np" target="_blank">
-                                <img height="auto" src="https://i.postimg.cc/7Z0MBvDd/NewsBit.png" style="
+                                  <img height="auto" src="https://i.postimg.cc/7Z0MBvDd/NewsBit.png" alt="NewsBit Logo" style="
                                     border: 0;
                                     display: block;
                                     outline: none;
@@ -203,7 +203,7 @@ const welcomeHtml = (mail, branch, semester) => {
                                     height: auto;
                                     line-height: 100%;
                                     -ms-interpolation-mode: bicubic;
-                                  " width="64" />
+                                  " width="64"  />
                               </a>
                             </td>
                           </tr>
