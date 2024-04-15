@@ -19,7 +19,7 @@ async function scrapeNews() {
   let startUrls = [];
 
   let pagesSetToScrape = 0;
-  let totalPagesToScrape = 3;
+  let totalPagesToScrape = 100;
 
   let proxyList = ["http://okitzyql-rotate:pxd2futo95rc@p.webshare.io:80"];
 
@@ -91,7 +91,6 @@ async function scrapeNews() {
       pdfUrl: pdfUrl,
       url: request.url,
     };
-
 
     DATA.push(results);
 
