@@ -49,7 +49,7 @@ function Hero() {
           </p>
           <div className="mt-10 flex items-center justify-center">
             <button
-              className="rounded-md bg-primary px-4 py-2 font-subHeading duration-300 hover:bg-primary/80 active:scale-[0.969]"
+              className="rounded-md bg-primary px-4 py-2 font-subHeading text-light duration-300 hover:bg-primary/80 active:scale-[0.969]"
               onClick={() =>
                 window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
               }
