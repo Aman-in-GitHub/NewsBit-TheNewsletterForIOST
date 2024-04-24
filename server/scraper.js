@@ -1,5 +1,5 @@
 import fs from "fs";
-import { CheerioCrawler, ProxyConfiguration } from "crawlee";
+import { CheerioCrawler } from "crawlee";
 import { supabase } from "./db.js";
 import createEmail from "./utils/createEmail.js";
 
@@ -21,8 +21,6 @@ async function scrapeNews() {
   let pagesSetToScrape = 0;
   let totalPagesToScrape = 100;
 
-  let proxyList = ["http://okitzyql-rotate:pxd2futo95rc@p.webshare.io:80"];
-
   const urls = ["https://iost.tu.edu.np/notices"];
 
   for (const url of urls) {
@@ -33,7 +31,6 @@ async function scrapeNews() {
   }
 
   const crawler = new CheerioCrawler({
-    proxyConfiguration: new ProxyConfiguration({ proxyUrls: proxyList }),
     minConcurrency: 1,
     maxRequestRetries: 10,
     maxConcurrency: 1,
@@ -92,6 +89,8 @@ async function scrapeNews() {
       url: request.url,
     };
 
+    console.log("RESULTS", results);
+
     DATA.push(results);
 
     return results;
@@ -113,12 +112,14 @@ export async function main() {
       return;
     }
 
-    const previousFirstNews = data.find((n) => n.index === 1);
-    const currentFirstNews = DATA.find((n) => n.index === 1);
+    if (data.length > 0) {
+      const previousFirstNews = data.find((n) => n.index === 1);
+      const currentFirstNews = DATA.find((n) => n.index === 1);
 
-    if (previousFirstNews.url === currentFirstNews.url) {
-      console.log("No new news found");
-      return;
+      if (previousFirstNews.url === currentFirstNews.url) {
+        console.log("No new news found");
+        return;
+      }
     }
 
     DATA.forEach(async (news) => {
@@ -147,8 +148,16 @@ export async function main() {
     console.log("News has been scraped successfully.");
   } catch (error) {
     console.log("Error Scraping The News:", error);
+  } finally {
+    try {
+      fs.rmdirSync("./storage", { recursive: true });
+      console.log("Storage folder deleted.");
+    } catch (error) {
+      if (error.code === "ENOENT") {
+        console.log("Storage folder does not exist.");
+      } else {
+        console.log("Error Scraping The News:", error);
+      }
+    }
   }
-
-  fs.rmdirSync("./storage", { recursive: true });
-  console.log("Storage folder deleted.");
 }
