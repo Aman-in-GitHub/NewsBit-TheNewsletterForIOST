@@ -1,4 +1,4 @@
-export const downloadPDF = async (fileUrl: string, downloadName: string) => {
+export async function downloadPDF(fileUrl: string, downloadName: string) {
   try {
     const sanitizedDownloadName = (downloadName || "pdf_download").replace(
       /[^\p{L}\p{N}\p{M}\p{S}\p{P}\p{Zs}]/gu,
@@ -32,4 +32,4 @@ export const downloadPDF = async (fileUrl: string, downloadName: string) => {
   } catch (error) {
     console.error("Error:", error);
   }
-};
+}
