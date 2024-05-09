@@ -1,4 +1,26 @@
+import { useEffect } from "react";
+import { toast } from "sonner";
+
 function Hero() {
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(import.meta.env.VITE_NODE_API_URL);
+
+        console.log(response.status);
+      } catch (error) {
+        console.error("Error:", error);
+        toast.error("Sorry for the inconvenience", {
+          description:
+            "This site has reached it's monthly spend limit. Please try again later.",
+          duration: 69000,
+        });
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <div className="relative isolate flex h-screen items-center px-2 pt-10 lg:px-8">
       <div
