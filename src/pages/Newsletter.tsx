@@ -22,38 +22,40 @@ import { CommandList } from "cmdk";
 const branches: Array<{ value: string; label: string }> = [];
 
 const branchNames = ["BIT", "CSIT", "MIT", "M.Sc.CSIT"];
+const romanNumerals = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
 
-for (let i = 1; i <= 8; i++) {
-  branchNames.forEach((branchName) => {
-    const semesterLimit = ["MIT", "M.Sc.CSIT"].includes(branchName) ? 4 : 8;
+branchNames.forEach((branchName) => {
+  const semesterLimit = ["MIT", "M.Sc.CSIT"].includes(branchName) ? 4 : 8;
 
-    if (i <= semesterLimit) {
-      const romanNumeral = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"][
-        i - 1
-      ];
-      const value = `${branchName} ${romanNumeral}`;
-      const label = `${branchName} ${romanNumeral} Sem`;
-      branches.push({ value, label });
-    }
-  });
-}
+  for (let i = 1; i <= semesterLimit; i++) {
+    const romanNumeral = romanNumerals[i - 1];
+    const value = `${branchName} ${romanNumeral}`;
+    const label = `${branchName} ${romanNumeral} Sem`;
+    branches.push({ value, label });
+  }
+});
+
 function Newsletter() {
-  const emailRef = useRef<HTMLInputElement>(null);
-  const [branch, setBranch] = useState("");
   const [open, setOpen] = useState(false);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const [branchesSelected, setBranchesSelected] = useState<string[]>([]);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     try {
-      if (!branch) {
-        toast.error("Please select a branch");
+      if (branchesSelected.length === 0) {
+        toast.error("Please select at least one semester");
         return;
       }
 
-      const branchName = branch.split(" ")[0].trim();
-      const semester = branch.split(" ")[1].trim();
       const email = emailRef.current?.value.toLowerCase().trim();
+      const selections = branchesSelected.map((item) => {
+        const [branchName, semester] = item
+          .split(" ")
+          .map((part) => part.trim());
+        return { branch: branchName, semester };
+      });
 
       const response = await fetch(
         `${import.meta.env.VITE_NODE_API_URL}/api/saveEmail`,
@@ -64,8 +66,7 @@ function Newsletter() {
           },
           body: JSON.stringify({
             email,
-            branch: branchName,
-            semester,
+            selections,
           }),
         },
       );
@@ -77,7 +78,7 @@ function Newsletter() {
       if (emailRef.current) {
         emailRef.current.value = "";
       }
-      setBranch("");
+      setBranchesSelected([]);
 
       if (response.status === 200) {
         toast.success("Email saved successfully");
@@ -86,11 +87,13 @@ function Newsletter() {
           description: data.message,
         });
       }
-    } catch (error) {
+    } catch {
       if (emailRef.current) {
         emailRef.current.value = "";
       }
-      setBranch("");
+
+      setBranchesSelected([]);
+
       toast.error("Failed to save email", {
         description: "Couldn't connect to the server. Please try again later.",
       });
@@ -102,10 +105,12 @@ function Newsletter() {
       <h2 className="mx-auto max-w-2xl text-center font-heading text-3xl font-bold tracking-tight text-dark dark:text-light sm:text-4xl">
         Get notified when you have a new notice
       </h2>
+
       <p className="mx-auto mt-2 max-w-xl text-center text-lg leading-8 text-darkAccent dark:text-lightAccent">
         We will send you an email only when there is a new notice regarding your
         specific branch.
       </p>
+
       <form
         className="mx-auto mt-10 flex max-w-md flex-col gap-4"
         onSubmit={handleSubmit}
@@ -115,6 +120,7 @@ function Newsletter() {
             <label htmlFor="email-address" className="sr-only">
               Email address
             </label>
+
             <input
               name="email"
               type="email"
@@ -135,12 +141,16 @@ function Newsletter() {
                 aria-expanded={open}
                 className="h-[2.55rem] w-[250px] rounded-md border-0 bg-white/5 text-sm text-dark shadow-sm ring-1 ring-inset ring-white dark:bg-white/5 dark:text-light dark:ring-white/10 lg:w-[200px]"
               >
-                {branch
-                  ? branches.find((b) => b.value === branch)?.label
-                  : "Select your branch"}
+                {branchesSelected.length > 0
+                  ? branchesSelected.length === 1
+                    ? branches.find((b) => b.value === branchesSelected[0])
+                        ?.label
+                    : `Selected ${branchesSelected.length} semesters`
+                  : "Select your semesters"}
                 <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
               </button>
             </PopoverTrigger>
+
             <PopoverContent className="w-[200px] p-0 font-text">
               <Command>
                 <CommandInput placeholder="Search branch" />
@@ -153,16 +163,19 @@ function Newsletter() {
                           key={b.value}
                           value={b.value}
                           onSelect={(currentValue) => {
-                            setBranch(
-                              currentValue === branch ? "" : currentValue,
+                            setBranchesSelected((prev) =>
+                              prev.includes(currentValue)
+                                ? prev.filter((item) => item !== currentValue)
+                                : [...prev, currentValue],
                             );
-                            setOpen(false);
                           }}
                         >
                           <Check
                             className={cn(
                               "mr-2 h-4 w-4",
-                              branch === b.value ? "opacity-100" : "opacity-0",
+                              branchesSelected.includes(b.value)
+                                ? "opacity-100"
+                                : "opacity-0",
                             )}
                           />
                           {b.label}
@@ -183,6 +196,7 @@ function Newsletter() {
           Notify me
         </button>
       </form>
+
       <svg
         viewBox="0 0 1024 1024"
         className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-x-1/2"
