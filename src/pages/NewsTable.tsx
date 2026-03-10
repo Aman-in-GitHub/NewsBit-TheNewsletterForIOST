@@ -9,9 +9,10 @@ async function getData(): Promise<News[]> {
   const response = await fetch(
     `${import.meta.env.VITE_NODE_API_URL}/api/getNews`,
   );
+
   const res = await response.json();
 
-  return res.data;
+  return res.data.sort((a: News, b: News) => Number(b.date) - Number(a.date));
 }
 
 export default function NewsTable() {
@@ -22,12 +23,16 @@ export default function NewsTable() {
 
   if (data && data.length >= 3) {
     let index = 0;
+
     const intervalID = setInterval(() => {
       const news = data[index];
+
       toast.info(`${news.title}`, {
         description: `${secondsToDate(news.date)}`,
       });
+
       index++;
+
       if (index >= 3) {
         clearInterval(intervalID);
       }
@@ -64,6 +69,7 @@ export default function NewsTable() {
     return (
       <section className="flex h-screen flex-col items-center justify-center gap-8 lg:gap-12">
         <TableLoader />
+
         <p className="select-none text-center font-subHeading text-xl text-primary lg:text-3xl">
           Loading News
         </p>
@@ -75,6 +81,7 @@ export default function NewsTable() {
     return (
       <section className="flex h-screen flex-col items-center justify-center gap-8 lg:gap-12">
         <TableLoader />
+
         <div className="flex flex-col items-center gap-4">
           <p className="select-none text-center font-subHeading text-xl text-primary lg:text-3xl">
             No News Found
