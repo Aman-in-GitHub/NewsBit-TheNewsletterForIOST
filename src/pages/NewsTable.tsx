@@ -44,6 +44,7 @@ export default function NewsTable() {
     return (
       <section className="flex h-screen flex-col items-center justify-center gap-6 lg:gap-8">
         <TableLoader />
+
         <div className="flex flex-col items-center gap-4">
           <p className="select-none text-center font-subHeading text-xl text-primary lg:text-3xl">
             Error Connecting To Server
